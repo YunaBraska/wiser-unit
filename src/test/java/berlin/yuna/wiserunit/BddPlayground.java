@@ -1,4 +1,4 @@
-package com.berlin.yuna;
+package berlin.yuna.wiserunit;
 
 import berlin.yuna.wiserjunit.model.annotation.WiserJunitReport;
 import org.junit.jupiter.api.AfterAll;

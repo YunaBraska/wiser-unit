@@ -1,4 +1,4 @@
-package com.berlin.yuna.helper;
+package berlin.yuna.wiserunit.helper;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
