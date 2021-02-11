@@ -1,0 +1,3 @@
+name: "-= Test-Report =-"
+format: "JSON"
+outputHtml: "%user.dir%/target/wiser-report.html"
