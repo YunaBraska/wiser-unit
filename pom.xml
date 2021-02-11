@@ -6,7 +6,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>ReportTest</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
 
     <name>Wiser Unit</name>
     <description>BDD test methods and generates report
@@ -37,9 +37,9 @@
         <!-- PROJECT -->
         <junit-jupiter.version>5.7.1</junit-jupiter.version>
         <hamcrest-core.version>2.2</hamcrest-core.version>
-        <jackson-databind.version>2.12.0</jackson-databind.version>
-        <jackson-datatype-jsr310.version>2.11.1</jackson-datatype-jsr310.version>
-        <jackson-dataformat-yaml.version>2.11.1</jackson-dataformat-yaml.version>
+        <jackson-databind.version>2.12.1</jackson-databind.version>
+        <jackson-datatype-jsr310.version>2.12.1</jackson-datatype-jsr310.version>
+        <jackson-dataformat-yaml.version>2.12.1</jackson-dataformat-yaml.version>
         <!-- BUILD -->
         <java.version>8</java.version>
         <project.encoding>UTF-8</project.encoding>
