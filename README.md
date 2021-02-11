@@ -62,13 +62,22 @@ outputHtml: "%user.dir%/target/wiser-report.html" #report html output, empty str
 classesIgnore: "MyAnnoyingClassName" #Will ignore the class while scanning for error line/preview
 ```
 
-### Usage
+### Usage report
+* `@WiserJunitReport` annotation adds the class test to the report generator 
+```java
+@Tag("UnitTest")
+@WiserJunitReport
+class MyTest {
+    //....
+}
+```
+### Usage BDD methods
 * Basic example
 ```java
 .given("Input is my short phone number", 10)
 .when(
-        "Filter even numbers", 
-        number -> LongStream.rangeClosed(1, number).boxed().filter(value -> value % 2 == 0).collect(toList())
+    "Filter even numbers", 
+    number -> LongStream.rangeClosed(1, number).boxed().filter(value -> value % 2 == 0).collect(toList())
 ).then(...)
 ```
 
