@@ -173,9 +173,13 @@ public class BddCore {
     }
 
     protected static String formatBdd(final int emoji, final Bdd<?> bdd) {
+        return formatBdd(emoji, bdd.type.toString(), bdd.message);
+    }
+
+    public static String formatBdd(final int emoji, final String type, final String message) {
         return format(
                 "%-7s:%s", (emoji > 0 ? new String(toChars(emoji)) + " " : "")
-                        + bdd.type, bdd.message == null ? "" : " " + bdd.message
+                        + type, message == null ? "" : " " + message
         );
     }
 

@@ -305,10 +305,10 @@ public class Bdd<T> {
     }
 
     public <F extends Throwable> Bdd<Class<F>> willThrow(final Class<F> expected, final Executable executable) {
-        return willThrow(expected, executable, null);
+        return willThrow(null, expected, executable);
     }
 
-    public <F extends Throwable> Bdd<Class<F>> willThrow(final Class<F> expected, final Executable executable, final String message) {
+    public <F extends Throwable> Bdd<Class<F>> willThrow(final String message, final Class<F> expected, final Executable executable) {
         final Bdd<Class<F>> result = new Bdd<>(
                 this,
                 MATCH,

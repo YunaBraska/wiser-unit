@@ -46,19 +46,21 @@ BDD test methods and generates report
 * Provides BDD methods \[SUMMARY, FEATURE, GIVEN, THEN, WHEN, AND, BUT, WHERE, MATCH]
 * Provides BDD error message with preconditions
 * Provides a preview of the error line
-* Report generation in \[JSON, YAML, HTML]
+* Report generation in \[JSON, YAML, HTML, CSV]
 * \[...] your feature request?
 
 ### Configuration
 * Config `wiser_report.yaml` (can be placed at the root folder of the project):
 ```yaml
 name: "Custom report name"
-format: "JSON" #report format [JSON/YAML]
+generateYaml: true #generates yaml report
+generateHtml: true #generates html report
+generateCsv: true #generates csv report
+generateJson: true #cant be disabled, it always generates a json report
 generateNew: true #[false: update current report (parallel tests) / true: delete previous]
+generateFlow: true #[will also generates flow for successful tests using regex]
 errorPreviewLines: 1 #Class lines to preview when error occurred
-output: "%user.dir%/target/wiser-report.out" #report output, empty string = disabled
-outputNested: "%user.dir%/target/wiser-report-nested.out" #report nested output, empty string = disabled
-outputHtml: "%user.dir%/target/wiser-report.html" #report html output, empty string = disabled
+outputDir: "%user.dir%/target/wiser-report.out" #report output, empty string = disabled
 classesIgnore: "MyAnnoyingClassName" #Will ignore the class while scanning for error line/preview
 ```
 
@@ -148,4 +150,4 @@ berlin.yuna.wiserjunit.model.exception.BddException:
 [...]
 ```
 ### Example Report
-![ReportExample](src/test/resources/wiserUnitReport.png)
+![ReportExample](src/test/resources/wiserUnitReport2.png)

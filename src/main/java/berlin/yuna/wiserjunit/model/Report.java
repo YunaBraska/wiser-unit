@@ -22,8 +22,8 @@ public class Report {
         metaData.percentageSucceed = ((metaData.testCasesSucceed * 100f) / (Math.max(testCases.size(), 1)));
         metaData.percentageDisabled = ((metaData.testCasesFailed * 100f) / (Math.max(testCases.size(), 1)));
         metaData.percentageDisabled = ((metaData.testCasesDisabled * 100f) / (Math.max(testCases.size(), 1)));
-        metaData.updated = nowUtc();
-        metaData.ended = System.currentTimeMillis();
+        metaData.dateEnd = nowUtc();
+        metaData.timeEnd = System.currentTimeMillis();
         metaData.duration = stream().mapToLong(TestCase::getDuration).sum();
         metaData.durationPretty = toPrettyDuration(metaData.duration);
         return this;
@@ -78,10 +78,10 @@ public class Report {
         private float percentageSucceed;
         private float percentageDisabled;
         private float percentageFailed;
-        private LocalDateTime created = nowUtc();
-        private long started = System.currentTimeMillis();
-        private LocalDateTime updated = nowUtc();
-        private long ended = System.currentTimeMillis();
+        private LocalDateTime dateStart = nowUtc();
+        private long timeStart = System.currentTimeMillis();
+        private LocalDateTime dateEnd = nowUtc();
+        private long timeEnd = System.currentTimeMillis();
         private String durationPretty;
         private long duration;
 
@@ -117,36 +117,36 @@ public class Report {
             this.percentageSucceed = percentageSucceed;
         }
 
-        public LocalDateTime getCreated() {
-            return created;
+        public LocalDateTime getDateStart() {
+            return dateStart;
         }
 
-        public void setCreated(final LocalDateTime created) {
-            this.created = created;
+        public void setDateStart(final LocalDateTime dateStart) {
+            this.dateStart = dateStart;
         }
 
-        public long getStarted() {
-            return started;
+        public long getTimeStart() {
+            return timeStart;
         }
 
-        public void setStarted(final long started) {
-            this.started = started;
+        public void setTimeStart(final long timeStart) {
+            this.timeStart = timeStart;
         }
 
-        public LocalDateTime getUpdated() {
-            return updated;
+        public LocalDateTime getDateEnd() {
+            return dateEnd;
         }
 
-        public void setUpdated(final LocalDateTime updated) {
-            this.updated = updated;
+        public void setDateEnd(final LocalDateTime dateEnd) {
+            this.dateEnd = dateEnd;
         }
 
-        public long getEnded() {
-            return ended;
+        public long getTimeEnd() {
+            return timeEnd;
         }
 
-        public void setEnded(final long ended) {
-            this.ended = ended;
+        public void setTimeEnd(final long timeEnd) {
+            this.timeEnd = timeEnd;
         }
 
         public String getDurationPretty() {

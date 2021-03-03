@@ -15,37 +15,37 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
-import static berlin.yuna.wiserjunit.config.WiserJunitConfig.Format.JSON;
-import static berlin.yuna.wiserjunit.config.WiserJunitConfig.Format.YAML;
+import static berlin.yuna.wiserjunit.logic.FileUtils.validatePath;
 
 @SuppressWarnings({"unused", "ResultOfMethodCallIgnored", "java:S108"})
 public class WiserJunitConfig {
 
 
-    public enum Format {
-        YAML,
-        JSON
-    }
+    //TODO configure multiple output formats
 
     private String name = "Report";
-    private WiserJunitConfig.Format format = JSON;
     private boolean generateNew = true;
+    private boolean generateFlow = true;
+    private boolean generateHtml = true;
+    private boolean generateCsv = true;
+    private boolean generateYaml = true;
     private int errorPreviewLines = 1;
     private String projectDir = System.getProperty("user.dir");
-    private Path output = Paths.get(projectDir, TARGET_FOLDER, "wiser-report.out");
-    private Path outputNested = Paths.get(projectDir, TARGET_FOLDER, "wiser-report-nested.out");
-    private Path outputHtml = Paths.get(projectDir, TARGET_FOLDER, "wiser-report.html");
-    private Path outputLock = Paths.get(projectDir, TARGET_FOLDER, "wiser-report.lock");
+    private Path outputDir = Paths.get(projectDir, TARGET_FOLDER, "wiser-unit");
     private Set<String> classesIgnore = new HashSet<>();
 
     public static final ObjectMapper MAPPER_YAML = configure(new ObjectMapper(new YAMLFactory()));
-    private static final ObjectMapper MAPPER_JSON = configure(new ObjectMapper());
+    public static final ObjectMapper MAPPER_JSON = configure(new ObjectMapper());
     private static final String TARGET_FOLDER = "target";
 
     public WiserJunitConfig() {
@@ -67,14 +67,6 @@ public class WiserJunitConfig {
         this.name = name;
     }
 
-    public Format getFormat() {
-        return format;
-    }
-
-    public void setFormat(Format format) {
-        this.format = format;
-    }
-
     public boolean isGenerateNew() {
         return generateNew;
     }
@@ -91,20 +83,77 @@ public class WiserJunitConfig {
         this.projectDir = projectDir;
     }
 
-    public Path getOutput() {
-        return output;
+    public Path getOutputDir() {
+        return outputDir;
     }
 
-    public void setOutput(final String output) {
-        this.output = replaceEnvs(output);
+    public void setOutputDir(final String outputDir) {
+        this.outputDir = replaceEnvs(outputDir);
     }
 
-    public Path getOutputLock() {
-        return outputLock;
+    public boolean isGenerateHtml() {
+        return generateHtml;
     }
 
-    public void setOutputLock(final String outputLock) {
-        this.outputLock = replaceEnvs(outputLock);
+    public void setGenerateHtml(final boolean generateHtml) {
+        this.generateHtml = generateHtml;
+    }
+
+    public boolean isGenerateCsv() {
+        return generateCsv;
+    }
+
+    public void setGenerateCsv(final boolean generateCsv) {
+        this.generateCsv = generateCsv;
+    }
+
+    public boolean isGenerateYaml() {
+        return generateYaml;
+    }
+
+    public void setGenerateYaml(final boolean generateYaml) {
+        this.generateYaml = generateYaml;
+    }
+
+    public Path getOutputLockRaw() {
+        return Paths.get(outputDir.toString(), "wiser-report.lock");
+    }
+
+    public Path getOutputJsonRaw() {
+        return Paths.get(outputDir.toString(), "report.json");
+    }
+
+    public Optional<Path> getOutputJson() {
+        return validatePath(getOutputJsonRaw());
+    }
+
+    public Optional<Path> getOutputLock() {
+        return validatePath(getOutputLockRaw());
+    }
+
+
+    public Optional<Path> getOutputYaml() {
+        return generateYaml ? validatePath(Paths.get(outputDir.toString(), "report.yaml")) : Optional.empty();
+    }
+
+    public Optional<Path> getOutputCsv() {
+        return generateCsv ? validatePath(Paths.get(outputDir.toString(), "report.csv")) : Optional.empty();
+    }
+
+    public Optional<Path> getOutputHtml() {
+        return generateHtml ? validatePath(Paths.get(outputDir.toString(), "report.html")) : Optional.empty();
+    }
+
+    public List<Path> getOutputAll() {
+        final List<Path> result = new ArrayList<>();
+        for (Optional<Path> path : new Optional[]{getOutputJson(), getOutputYaml(), getOutputHtml(), getOutputCsv(), getOutputLock()}) {
+            path.ifPresent(result::add);
+        }
+        return result;
+    }
+
+    public List<Path> getOutputAllExistent() {
+        return getOutputAll().stream().filter(Files::exists).collect(Collectors.toList());
     }
 
     public int getErrorPreviewLines() {
@@ -115,22 +164,6 @@ public class WiserJunitConfig {
         this.errorPreviewLines = errorPreviewLines;
     }
 
-    public Path getOutputNested() {
-        return outputNested;
-    }
-
-    public Path getOutputHtml() {
-        return outputHtml;
-    }
-
-    public void setOutputHtml(final String outputHtml) {
-        this.outputHtml = replaceEnvs(outputHtml);
-    }
-
-    public void setOutputNested(final String outputNested) {
-        this.outputNested = replaceEnvs(outputNested);
-    }
-
     public Set<String> getClassesIgnore() {
         return classesIgnore;
     }
@@ -139,23 +172,37 @@ public class WiserJunitConfig {
         this.classesIgnore = classesIgnore;
     }
 
+    public boolean isGenerateFlow() {
+        return generateFlow;
+    }
+
+    public void setGenerateFlow(boolean generateFlow) {
+        this.generateFlow = generateFlow;
+    }
+
     private void createReport() {
-        if (!Files.exists(output)) {
-            output.getParent().toFile().mkdirs();
+        final Path outputJsonRaw = getOutputJsonRaw();
+        if (!Files.exists(outputJsonRaw)) {
+            outputJsonRaw.getParent().toFile().mkdirs();
             try {
-                Files.createFile(output);
+                Files.createFile(outputJsonRaw);
             } catch (IOException e) {
-                throw new WiserExtensionException("Could not create file [" + output + "]", e);
+                throw new WiserExtensionException("Could not create file [" + outputJsonRaw + "]", e);
             }
         }
     }
 
-    public ObjectMapper getMapper() {
-        return format == YAML ? MAPPER_YAML : MAPPER_JSON;
+    public ObjectMapper getMapperJson() {
+        return MAPPER_JSON;
+    }
+
+    public ObjectMapper getMapperYaml() {
+        return MAPPER_YAML;
     }
 
     @SuppressWarnings("BusyWait")
     public synchronized void tryUnlock(final Consumer<Path> supplier) {
+        final Path outputLock = getOutputLockRaw();
         try {
             final long start = System.currentTimeMillis();
             while (Files.exists(outputLock)) {
@@ -166,7 +213,7 @@ public class WiserJunitConfig {
                 }
             }
             Files.createFile(outputLock);
-            supplier.accept(output);
+            supplier.accept(getOutputJsonRaw());
             Files.deleteIfExists(outputLock);
         } catch (Exception e) {
             e.printStackTrace();
@@ -185,13 +232,10 @@ public class WiserJunitConfig {
     }
 
     private void deletePrevious() {
-        if (generateNew && Files.exists(output)) {
-            deleteFile(output);
-            deleteFile(outputHtml);
-            deleteFile(outputNested);
-        }
-        if (Files.exists(outputLock)) {
-            deleteFile(outputLock);
+        if (generateNew) {
+            for (Path path : getOutputAllExistent()) {
+                deleteFile(path);
+            }
         }
     }
 

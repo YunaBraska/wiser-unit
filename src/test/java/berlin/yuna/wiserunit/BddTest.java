@@ -150,7 +150,7 @@ class BddTest {
                     assertEquals(5, value.size());
                     return value;
                 })
-                .willThrow(RuntimeException.class, () -> {
+                .willThrow("will trow", RuntimeException.class, () -> {
                     throw new RuntimeException("expected");
                 })
                 .end();

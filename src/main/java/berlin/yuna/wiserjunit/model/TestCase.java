@@ -19,9 +19,10 @@ public class TestCase implements Comparable<TestCase> {
     private String nameDisplay;
     private String nameClass;
     private String nameTest;
-    private List<String> errorMsgList = new ArrayList<>();
+    private List<String> bddMsgList = new ArrayList<>();
     private String errorMsg = "";
-    private String errorPreview = "";
+    private String previewText = "";
+    private String bddText = "";
     private long errorLine = -1;
     private String errorType = "";
     private String durationPretty = "";
@@ -92,12 +93,12 @@ public class TestCase implements Comparable<TestCase> {
         this.errorType = errorType;
     }
 
-    public String getErrorPreview() {
-        return errorPreview;
+    public String getPreviewText() {
+        return previewText;
     }
 
-    public void setErrorPreview(String errorPreview) {
-        this.errorPreview = errorPreview;
+    public void setPreviewText(String previewText) {
+        this.previewText = previewText;
     }
 
     public long getErrorLine() {
@@ -110,6 +111,10 @@ public class TestCase implements Comparable<TestCase> {
 
     public boolean isSuccess() {
         return success;
+    }
+
+    public boolean isFailed() {
+        return !isSuccess();
     }
 
     public void setSuccess(boolean success) {
@@ -144,16 +149,24 @@ public class TestCase implements Comparable<TestCase> {
         this.duration = duration;
     }
 
-    public List<String> getErrorMsgList() {
-        return errorMsgList;
+    public List<String> getBddMsgList() {
+        return bddMsgList;
     }
 
-    public void setErrorMsgList(List<String> errorMsgList) {
-        this.errorMsgList = errorMsgList;
+    public void setBddMsgList(List<String> bddMsgList) {
+        this.bddMsgList = bddMsgList;
+    }
+
+    public void addBddMeg(final String errorMsg) {
+        bddMsgList.add(errorMsg);
     }
 
     public boolean isDisabled() {
         return disabled;
+    }
+
+    public boolean isNotDisabled() {
+        return !isDisabled();
     }
 
     public void setDisabled(boolean disabled) {
@@ -202,6 +215,14 @@ public class TestCase implements Comparable<TestCase> {
                 : duration < 604800000
                 ? DECIMAL_FORMATTER.format(duration / 60f / 60f / 24f / 7f) + "d"
                 : DECIMAL_FORMATTER.format(duration / 60f / 60f / 24f / 7f / 30) + "w";
+    }
+
+    public String getBddText() {
+        return bddText;
+    }
+
+    public void setBddText(String bddText) {
+        this.bddText = bddText;
     }
 
     @Override
