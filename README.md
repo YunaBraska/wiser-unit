@@ -38,19 +38,36 @@
 [gitter_shield]: https://img.shields.io/gitter/room/YunaBraska/wiser-unit?style=flat-square
 [gitter_link]: https://gitter.im/wiser-unit/Lobby
 
-
 ### Description
-BDD test methods and generates report
+
+BDD test methods and report generator
 
 ### Features
+
 * Provides BDD methods \[SUMMARY, FEATURE, GIVEN, THEN, WHEN, AND, BUT, WHERE, MATCH]
 * Provides BDD error message with preconditions
 * Provides a preview of the error line
 * Report generation in \[JSON, YAML, HTML, CSV]
 * \[...] your feature request?
 
+### Usage
+
+```xml
+
+<dependency>
+    <groupId>berlin.yuna</groupId>
+    <artifactId>wiser-unit</artifactId>
+    <version>0.0.4</version>
+</dependency>
+```
+
+### Example Report
+![ReportExample](src/test/resources/wiserUnitReport2.png)
+
 ### Configuration
+
 * Config `wiser_report.yaml` (can be placed at the root folder of the project):
+
 ```yaml
 name: "Custom report name"
 generateYaml: true #generates yaml report
@@ -64,75 +81,91 @@ outputDir: "%user.dir%/target/wiser-report.out" #report output, empty string = d
 classesIgnore: "MyAnnoyingClassName" #Will ignore the class while scanning for error line/preview
 ```
 
+[Get latest version][central_link]
+
 ### Usage report
-* `@WiserJunitReport` annotation adds the class test to the report generator 
+
+* `@WiserJunitReport` annotation adds the class test to the report generator
+
 ```java
+
 @Tag("UnitTest")
 @WiserJunitReport
 class MyTest {
     //....
 }
 ```
+
 ### Usage BDD methods
+
 * Basic example
+
 ```java
-.given("Input is my short phone number", 10)
-.when(
-    "Filter even numbers", 
-    number -> LongStream.rangeClosed(1, number).boxed().filter(value -> value % 2 == 0).collect(toList())
-).then(...)
+.given("Input is my short phone number",10)
+        .when(
+        "Filter even numbers",
+        number->LongStream.rangeClosed(1,number).boxed().filter(value->value%2==0).collect(toList())
+        ).then(...)
 ```
 
 * Junit assertions
+
 ```java
 .then(
-    "[Junit] Should contain five even numbers", 
-    value -> {
+        "[Junit] Should contain five even numbers",
+        value->{
         assertNotNull(value);
-        assertEquals(5, value.size());
+        assertEquals(5,value.size());
         return value;
-    }
-)
+        }
+        )
 ```
+
 ```java
 .match(
-    "[Junit] Should not be null", 
-    Assertions::assertNotNull
-)
+        "[Junit] Should not be null",
+        Assertions::assertNotNull
+        )
 ```
+
 ```java
 .match(
-    "[Junit] Should contain five even numbers", 
-    value -> {
+        "[Junit] Should contain five even numbers",
+        value->{
         assertNotNull(value);
-        assertEquals(5, value.size());
-    }
-);
+        assertEquals(5,value.size());
+        }
+        );
 ```
+
 ```java
-.willThrow(RuntimeException.class, () -> {
-    throw new RuntimeException("expected");
-});
+.willThrow(RuntimeException.class,()->{
+        throw new RuntimeException("expected");
+        });
 ```
+
 * Hamcrest
+
 ```java
 .match(
-    "[Hamcrest] Should contain five even numbers",
-    is(notNullValue()),
-    hasSize(5)
-);
+        "[Hamcrest] Should contain five even numbers",
+        is(notNullValue()),
+        hasSize(5)
+        );
 ```
+
 ```java
 .then(
-    "[Hamcrest] Should contain five even numbers", 
-    value -> {
-        assertThat(value, is(notNullValue()));
-        assertThat(value, hasSize(5));
+        "[Hamcrest] Should contain five even numbers",
+        value->{
+        assertThat(value,is(notNullValue()));
+        assertThat(value,hasSize(5));
         return value;
-});
+        });
 ```
 
 ### Example failed test
+
 ```
 berlin.yuna.wiserjunit.model.exception.BddException: 
 ✅ FEATURE: This is a test about an unknown feature
@@ -149,5 +182,3 @@ berlin.yuna.wiserjunit.model.exception.BddException:
     at berlin.yuna.wiserjunit.model.bdd.BddCore.renderException(BddCore.java:155)
 [...]
 ```
-### Example Report
-![ReportExample](src/test/resources/wiserUnitReport2.png)
