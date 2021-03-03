@@ -6,7 +6,6 @@ import berlin.yuna.wiserjunit.model.TestCase;
 import berlin.yuna.wiserjunit.model.exception.BddException;
 import berlin.yuna.wiserjunit.model.exception.WiserExtensionException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.AfterAllCallback;
@@ -29,6 +28,7 @@ import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static berlin.yuna.wiserjunit.config.WiserJunitConfig.MAPPER_YAML;
+import static berlin.yuna.wiserjunit.logic.FileUtils.readFile;
 import static berlin.yuna.wiserjunit.logic.FileUtils.readLine;
 import static berlin.yuna.wiserjunit.logic.FileUtils.removeExtension;
 import static berlin.yuna.wiserjunit.logic.ReportGeneratorCsv.generateCsv;
@@ -200,21 +200,6 @@ public class WiserReportExtension implements BeforeAllCallback, BeforeTestExecut
     private static String upperCaseFirst(final String input) {
         return input.length() < 1 ? input
                 : input.substring(0, 1).toUpperCase() + input.substring(1);
-    }
-
-
-    private static <T> Optional<T> readFile(final Path file, final Class<T> type, final ObjectMapper mapperYaml) {
-        try {
-            if (Files.exists(file) && Files.isRegularFile(file)) {
-                return Optional.ofNullable(mapperYaml.readValue(file.toFile(), type));
-            }
-        } catch (MismatchedInputException e) {
-            if (!e.getMessage().contains("No content")) {
-                throw new WiserExtensionException("Error while reading file [" + file + "] " + e.getMessage());
-            }
-        } catch (IOException ignored) {
-        }
-        return Optional.empty();
     }
 
 

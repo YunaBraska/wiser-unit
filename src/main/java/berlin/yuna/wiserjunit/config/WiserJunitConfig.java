@@ -16,9 +16,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
@@ -26,12 +27,12 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static berlin.yuna.wiserjunit.logic.FileUtils.validatePath;
+import static java.util.Arrays.asList;
+import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.toSet;
 
 @SuppressWarnings({"unused", "ResultOfMethodCallIgnored", "java:S108"})
 public class WiserJunitConfig {
-
-
-    //TODO configure multiple output formats
 
     private String name = "Report";
     private boolean generateNew = true;
@@ -43,13 +44,16 @@ public class WiserJunitConfig {
     private String projectDir = System.getProperty("user.dir");
     private Path outputDir = Paths.get(projectDir, TARGET_FOLDER, "wiser-unit");
     private Set<String> classesIgnore = new HashSet<>();
+    private Set<String> testFileExtensions = new HashSet<>();
 
     public static final ObjectMapper MAPPER_YAML = configure(new ObjectMapper(new YAMLFactory()));
     public static final ObjectMapper MAPPER_JSON = configure(new ObjectMapper());
     private static final String TARGET_FOLDER = "target";
 
     public WiserJunitConfig() {
-        classesIgnore.addAll(new HashSet<>(Arrays.asList(
+        //TODO: overwrite config from environment variables
+        testFileExtensions.add("java");
+        classesIgnore.addAll(new HashSet<>(asList(
                 Bdd.class.getSimpleName(),
                 BddCore.class.getSimpleName(),
                 UncheckedConsumer.class.getSimpleName(),
@@ -168,8 +172,8 @@ public class WiserJunitConfig {
         return classesIgnore;
     }
 
-    public void setClassesIgnore(Set<String> classesIgnore) {
-        this.classesIgnore = classesIgnore;
+    public void setClassesIgnore(String classesIgnore) {
+        this.classesIgnore = stringToSet(classesIgnore);
     }
 
     public boolean isGenerateFlow() {
@@ -178,6 +182,14 @@ public class WiserJunitConfig {
 
     public void setGenerateFlow(boolean generateFlow) {
         this.generateFlow = generateFlow;
+    }
+
+    public Set<String> getTestFileExtensions() {
+        return testFileExtensions;
+    }
+
+    public void setTestFileExtensions(String testFileExtensions) {
+        this.testFileExtensions = stringToSet(testFileExtensions);
     }
 
     private void createReport() {
@@ -255,5 +267,11 @@ public class WiserJunitConfig {
         mapper.registerModule(new JavaTimeModule());
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         return mapper;
+    }
+
+    private Set<String> stringToSet(String set) {
+        return set != null
+                ? stream(set.split(",")).filter(Objects::nonNull).map(String::trim).filter(s -> s.length() > 0).collect(toSet())
+                : Collections.emptySet();
     }
 }

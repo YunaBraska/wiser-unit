@@ -73,12 +73,13 @@ name: "Custom report name"
 generateYaml: true #generates yaml report
 generateHtml: true #generates html report
 generateCsv: true #generates csv report
-generateJson: true #cant be disabled, it always generates a json report
+generateJson: true #generates json report - cant be disabled as json is the base for other reports
 generateNew: true #[false: update current report (parallel tests) / true: delete previous]
 generateFlow: true #[will also generates flow for successful tests using regex]
 errorPreviewLines: 1 #Class lines to preview when error occurred
-outputDir: "%user.dir%/target/wiser-report.out" #report output, empty string = disabled
+outputDir: "%user.dir%/target/wiser-unit" #report output, folder
 classesIgnore: "MyAnnoyingClassName" #Will ignore the class while scanning for error line/preview
+testFileExtensions: "java, groovy" #Used for `errorPreviewLines` and `generateFlow` 
 ```
 
 [Get latest version][central_link]

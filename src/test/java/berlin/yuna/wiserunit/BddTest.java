@@ -157,6 +157,16 @@ class BddTest {
     }
 
     @Test
+    void willThrow() {
+        assertThrows(BddException.class, () -> feature("Test BDD exception")
+                .willThrow("will trow", NullPointerException.class, () -> {
+                    throw new RuntimeException("expected");
+                })
+                .end()
+        );
+    }
+
+    @Test
     @Disabled("I disabled it cause my boss told me")
     @DisplayName("Should be disabled")
     void shouldBeDisabledAndListed() {
