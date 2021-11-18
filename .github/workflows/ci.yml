@@ -33,9 +33,9 @@ jobs:
           coverageLocations: ${{github.workspace}}/target/site/jacoco/jacoco.xml:jacoco
       - name: Remove code cov files
         run: |
-          rm -rf coverage*
-          rm -rf codeclimate*
-          rm -rf ./*reporter*
+          rm -rf coverage* &>/dev/null || true
+          rm -rf codeclimate* &>/dev/null || true
+          rm -rf ./*reporter* &>/dev/null || true
           git checkout src/test/resources/diagram_example.svg &> /dev/null
       - name: Tag and Push
         run: |
