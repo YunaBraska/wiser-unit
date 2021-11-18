@@ -38,7 +38,7 @@ jobs:
           rm -rf coverage* &>/dev/null || true
           rm -rf codeclimate* &>/dev/null || true
           rm -rf ./*reporter* &>/dev/null || true
-          git checkout src/test/resources/diagram_example.svg &> /dev/null
+          git checkout src/test/resources/diagram_example.svg &>/dev/null || true
       - name: Tag and Push
         run: |
           wget -nc https://raw.githubusercontent.com/YunaBraska/YunaBraska/main/.github/scripts/versions.sh -P target/pipeline_scripts
