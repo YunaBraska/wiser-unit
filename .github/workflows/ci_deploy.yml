@@ -33,16 +33,20 @@ jobs:
           JACOCO_SOURCE_PATH: "${{github.workspace}}/src/main/java"
         with:
           coverageLocations: ${{github.workspace}}/target/site/jacoco/jacoco.xml:jacoco
+       - name: Remove code cov files
+        run: |
+          rm -rf coverage*
+          rm -rf codeclimate*
+          rm -rf ./*reporter*
+          git checkout src/test/resources/diagram_example.svg &> /dev/null
       - name: Tag and Push
         run: |
-          pwd
-          ls -lsah
-          wget -nc https://raw.githubusercontent.com/YunaBraska/YunaBraska/main/.github/scripts/versions.sh -P .github/scripts
-          wget -nc https://raw.githubusercontent.com/YunaBraska/YunaBraska/main/.github/scripts/push_changes.sh -P .github/scripts
-          wget -nc https://raw.githubusercontent.com/YunaBraska/YunaBraska/main/.github/scripts/increment_version.sh -P .github/scripts
-          chmod +x .github/scripts/versions.sh .github/scripts/push_changes.sh .github/scripts/increment_version.sh
-          ls -lsah .github/scripts
-          .github/scripts/push_changes.sh "https://x-access-token:${{ secrets.CI_TOKEN }}@github.com/${{ github.repository }}"
+          wget -nc https://raw.githubusercontent.com/YunaBraska/YunaBraska/main/.github/scripts/versions.sh -P target/pipeline_scripts
+          wget -nc https://raw.githubusercontent.com/YunaBraska/YunaBraska/main/.github/scripts/push_changes.sh -P target/pipeline_scripts
+          wget -nc https://raw.githubusercontent.com/YunaBraska/YunaBraska/main/.github/scripts/increment_version.sh -P target/pipeline_scripts
+          chmod +x target/pipeline_scripts/versions.sh target/pipeline_scripts/push_changes.sh target/pipeline_scripts/increment_version.sh
+          target/pipeline_scripts/push_changes.sh "https://x-access-token:${{ secrets.CI_TOKEN }}@github.com/${{ github.repository }}"
+          rm -rf target/pipeline_scripts
       - name: "Check if branch exists"
         run: |
           git fetch origin release:release &>/dev/null || true
