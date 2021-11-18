@@ -31,7 +31,7 @@ jobs:
           JACOCO_SOURCE_PATH: "${{github.workspace}}/src/main/java"
         with:
           coverageLocations: ${{github.workspace}}/target/site/jacoco/jacoco.xml:jacoco
-       - name: Remove code cov files
+      - name: Remove code cov files
         run: |
           rm -rf coverage*
           rm -rf codeclimate*
