@@ -2,7 +2,7 @@
 name: JAVA_CI_DEPLOY
 on:
   workflow_dispatch:
-    branches: ['master']
+#    branches: ['master']
   schedule:
     - cron: "0 1 * * *"
 
