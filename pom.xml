@@ -6,7 +6,7 @@
 
     <groupId>berlin.yuna</groupId>
     <artifactId>wiser-unit</artifactId>
-    <version>0.0.85</version>
+    <version>0.0.86</version>
 
     <name>Wiser Unit</name>
     <description>BDD test methods and generates report
@@ -36,7 +36,7 @@
     <properties>
         <!-- PROJECT -->
         <junit-jupiter.version>5.11.0-M2</junit-jupiter.version>
-        <hamcrest-core.version>2.2</hamcrest-core.version>
+        <hamcrest-core.version>3.0-rc1</hamcrest-core.version>
         <jackson-databind.version>2.17.2</jackson-databind.version>
         <jackson-datatype-jsr310.version>2.17.2</jackson-datatype-jsr310.version>
         <jackson-dataformat-yaml.version>2.17.2</jackson-dataformat-yaml.version>
