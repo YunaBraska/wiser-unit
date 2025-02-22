@@ -6,7 +6,7 @@
 
     <groupId>berlin.yuna</groupId>
     <artifactId>wiser-unit</artifactId>
-    <version>0.0.104</version>
+    <version>0.0.105</version>
 
     <name>Wiser Unit</name>
     <description>BDD test methods and generates report
@@ -35,7 +35,7 @@
 
     <properties>
         <!-- PROJECT -->
-        <junit-jupiter.version>5.12.0-RC2</junit-jupiter.version>
+        <junit-jupiter.version>5.12.0</junit-jupiter.version>
         <hamcrest-core.version>3.0</hamcrest-core.version>
         <jackson-databind.version>2.18.2</jackson-databind.version>
         <jackson-datatype-jsr310.version>2.18.2</jackson-datatype-jsr310.version>
@@ -52,7 +52,7 @@
         <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
         <maven-javadoc-plugin.version>3.1.0</maven-javadoc-plugin.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
-        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
         <maven-failsafe-plugin.version>3.5.2</maven-failsafe-plugin.version>
         <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
