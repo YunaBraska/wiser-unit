@@ -14,8 +14,8 @@
 [![Size][size_shield]][size_shield]
 ![Label][label_shield]
 
-[build_shield]: https://github.com/YunaBraska/wiser-unit/workflows/JAVA_CI/badge.svg
-[build_link]: https://github.com/YunaBraska/wiser-unit/actions?query=workflow%3AJAVA_CI
+[build_shield]: https://github.com/YunaBraska/wiser-unit/workflows/Daily/badge.svg
+[build_link]: https://github.com/YunaBraska/wiser-unit/actions?query=workflow%3ADaily
 [maintainable_shield]: https://img.shields.io/codeclimate/maintainability/YunaBraska/wiser-unit?style=flat-square
 [maintainable_link]: https://codeclimate.com/github/YunaBraska/wiser-unit/maintainability
 [coverage_shield]: https://img.shields.io/codeclimate/coverage/YunaBraska/wiser-unit?style=flat-square
