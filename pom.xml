@@ -6,7 +6,7 @@
 
     <groupId>berlin.yuna</groupId>
     <artifactId>wiser-unit</artifactId>
-    <version>2025.09.2560216</version>
+    <version>2025.09.2570237</version>
 
     <name>Wiser Unit</name>
     <description>BDD test methods and generates report
