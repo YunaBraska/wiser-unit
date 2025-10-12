@@ -6,7 +6,7 @@
 
     <groupId>berlin.yuna</groupId>
     <artifactId>wiser-unit</artifactId>
-    <version>2025.09.2650242</version>
+    <version>2025.10.2850237</version>
 
     <name>Wiser Unit</name>
     <description>BDD test methods and generates report
@@ -60,7 +60,7 @@
         <!-- BUILD -->
         <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-        <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
         <maven-javadoc-plugin.version>3.1.0</maven-javadoc-plugin.version>
         <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
